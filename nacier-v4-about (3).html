@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NACIER – National Alliance for Commercial & Industrial Electronic Repair</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --off-white: #f4f1ec; --warm-white: #faf8f4;
+    --accent: #d4500a; --accent-light: #e8783a; --steel: #2c3e4a;
+    --steel-light: #4a6272; --muted: #8a9aa6; --border: #d0c9be; --gold: #c9a227;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--warm-white); color: var(--black); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3rem; background: rgba(244,241,236,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; color: var(--steel); text-transform: uppercase; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--steel); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: var(--accent) !important; color: white !important; padding: 0.55rem 1.3rem; border-radius: 2px; }
+  .nav-cta:hover { background: var(--accent-light) !important; color: white !important; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; position: relative; overflow: hidden; }
+  .hero-texture { position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(44,62,74,0.04) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(44,62,74,0.04) 40px); }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 6rem 4rem 6rem 5rem; position: relative; z-index: 1; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .hero-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 6vw, 7rem); line-height: 0.9; color: var(--steel); letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+  .hero-title span { color: var(--accent); display: block; }
+  .hero-abbrev { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--muted); letter-spacing: 0.3em; margin: 1.2rem 0 2rem; text-transform: uppercase; }
+  .hero-desc { font-size: 1.05rem; color: var(--steel-light); max-width: 480px; line-height: 1.75; margin-bottom: 2.5rem; font-weight: 300; }
+  .hero-desc strong { color: var(--steel); font-weight: 600; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: white; padding: 0.9rem 2.2rem; border-radius: 2px; text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s; border: 2px solid var(--accent); display: inline-block; }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-secondary { color: var(--steel); padding: 0.9rem 2.2rem; border-radius: 2px; text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border: 2px solid var(--border); transition: all 0.2s; display: inline-block; }
+  .btn-secondary:hover { border-color: var(--steel); background: var(--steel); color: white; }
+  .hero-right { background: var(--steel); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem; position: relative; overflow: hidden; }
+  .hero-right::before { content: 'NACIER'; position: absolute; font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(255,255,255,0.03); letter-spacing: 0.05em; line-height: 1; }
+  .motto-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--accent); border-radius: 4px; padding: 2.5rem; position: relative; z-index: 1; max-width: 340px; width: 100%; }
+  .motto-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent-light); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .motto-item { padding: 1.1rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .motto-item:last-child { border-bottom: none; }
+  .motto-word { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.1em; color: white; margin-bottom: 0.3rem; }
+  .motto-word span { color: var(--accent-light); }
+  .motto-def { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.5; font-weight: 300; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; position: relative; z-index: 1; width: 100%; max-width: 340px; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: white; line-height: 1; }
+  .stat-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+
+  /* SHARED */
+  section { padding: 6rem 5rem; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+  .section-label::before { content: ''; width: 1.5rem; height: 1px; background: var(--accent); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 4vw, 4.5rem); color: var(--steel); line-height: 0.95; letter-spacing: 0.02em; margin-bottom: 1.5rem; }
+  .section-body { font-size: 1rem; color: var(--steel-light); max-width: 600px; line-height: 1.75; font-weight: 300; }
+
+  /* WHY — steel dark */
+  .why-section { background: var(--steel); color: white; position: relative; overflow: hidden; }
+  .why-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212,80,10,0.15) 0%, transparent 70%); pointer-events: none; }
+  .why-section .section-label { color: var(--accent-light); }
+  .why-section .section-label::before { background: var(--accent-light); }
+  .why-section .section-title { color: white; }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; align-items: start; }
+  .why-points { display: flex; flex-direction: column; gap: 1.8rem; }
+  .why-point { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .why-point-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(212,80,10,0.3); line-height: 1; min-width: 3rem; }
+  .why-point-content h4 { font-size: 0.95rem; font-weight: 600; color: white; margin-bottom: 0.3rem; }
+  .why-point-content p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.6; font-weight: 300; }
+  .why-callout { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--accent); border-radius: 4px; padding: 2.5rem; }
+  .why-callout-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent-light); text-transform: uppercase; margin-bottom: 1rem; }
+  .why-callout-text { font-size: 1.02rem; color: rgba(255,255,255,0.75); line-height: 1.8; font-weight: 300; margin-bottom: 1.5rem; }
+  .why-callout-text em { color: white; font-style: normal; font-weight: 500; }
+
+  /* WHO JOINS */
+  .who-section { background: var(--off-white); }
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .who-list { list-style: none; display: flex; flex-direction: column; }
+  .who-list li { display: flex; gap: 1.2rem; align-items: center; padding: 1.1rem 1.4rem; background: white; border: 1px solid var(--border); border-bottom: none; font-size: 0.92rem; font-weight: 500; color: var(--steel); transition: all 0.2s; }
+  .who-list li:last-child { border-bottom: 1px solid var(--border); }
+  .who-list li:hover { background: var(--warm-white); border-color: var(--accent); }
+  .who-list li::before { content: '→'; color: var(--accent); font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .who-note { font-size: 0.82rem; color: var(--muted); margin-top: 1rem; font-weight: 300; line-height: 1.6; }
+  .who-note a { color: var(--accent); text-decoration: none; }
+
+  /* WHAT YOU GET */
+  .benefits-section { background: var(--warm-white); border-top: 1px solid var(--border); }
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .benefit-card { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 2rem; transition: all 0.2s; }
+  .benefit-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .benefit-icon { width: 52px; height: 52px; background: var(--off-white); border: 1.5px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; transition: background 0.2s, border-color 0.2s; }
+  .benefit-card:hover .benefit-icon { background: var(--steel); border-color: var(--accent); }
+  .benefit-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 0.05em; color: var(--steel); margin-bottom: 0.5rem; }
+  .benefit-desc { font-size: 0.84rem; color: var(--steel-light); line-height: 1.7; font-weight: 300; }
+
+  /* NACIER EXISTS */
+  .exists-section { background: var(--steel); color: white; position: relative; overflow: hidden; }
+  .exists-section::before { content: ''; position: absolute; bottom: -80px; left: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,80,10,0.12) 0%, transparent 70%); pointer-events: none; }
+  .exists-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .exists-section .section-label { color: var(--accent-light); }
+  .exists-section .section-label::before { background: var(--accent-light); }
+  .exists-section .section-title { color: white; }
+  .exists-body { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.85; font-weight: 300; margin-bottom: 1.2rem; }
+  .exists-body em { color: white; font-style: normal; font-weight: 500; }
+  .exists-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+  .exists-stat { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 1.4rem; }
+  .exists-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent-light); line-height: 1; margin-bottom: 0.4rem; }
+  .exists-stat-text { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 300; line-height: 1.5; }
+
+  /* SECTORS */
+  .sectors-section { background: var(--off-white); border-top: 1px solid var(--border); }
+  .sectors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+  .sector-card { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 1.8rem 1.5rem; transition: all 0.2s; }
+  .sector-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .sector-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .sector-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--steel); margin-bottom: 0.3rem; }
+  .sector-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+  /* CAPABILITY */
+  .capability-section { background: var(--accent); }
+  .capability-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .capability-section .section-label { color: rgba(255,255,255,0.7); }
+  .capability-section .section-label::before { background: rgba(255,255,255,0.7); }
+  .capability-section .section-title { color: white; }
+  .capability-section .section-body { color: rgba(255,255,255,0.8); max-width: 100%; margin-bottom: 2rem; }
+  .cap-points { display: flex; flex-direction: column; gap: 1rem; }
+  .cap-point { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 1.2rem 1.5rem; }
+  .cap-point h4 { font-size: 0.9rem; font-weight: 600; color: white; margin-bottom: 0.25rem; }
+  .cap-point p { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.6; font-weight: 300; }
+
+  /* FOOTER */
+  footer { background: var(--black); padding: 3.5rem 5rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; }
+  .footer-brand { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .footer-brand span { color: var(--accent); }
+  footer > div > p { font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.65; font-weight: 300; max-width: 320px; }
+  .footer-col h5 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col ul a { font-size: 0.83rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--accent-light); }
+  .footer-bottom { background: var(--black); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+  .footer-bottom a { color: var(--accent-light); text-decoration: none; font-size: 0.75rem; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s ease 0.1s both; }
+  .hero-abbrev { animation: fadeUp 0.6s ease 0.2s both; }
+  .hero-desc { animation: fadeUp 0.6s ease 0.3s both; }
+  .hero-actions { animation: fadeUp 0.6s ease 0.4s both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo"><span>NACIER</span> · National Alliance</a>
+  <ul class="nav-links">
+    <li><a href="#">About</a></li>
+    <li><a href="nacier-v4-join.html">Membership</a></li>
+    <li><a href="#sectors">Sectors</a></li>
+    <li><a href="#who">Who Joins</a></li>
+    <li><a href="nacier-v4-join.html" class="nav-cta">Join NACIER</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">A DUONS-Led Industry Initiative · Est. 2025</div>
+    <h1 class="hero-title">
+      National<br>Alliance<br>
+      <span>for Electronic</span>
+      Repair
+    </h1>
+    <div class="hero-abbrev">N · A · C · I · E · R</div>
+    <p class="hero-desc">
+      Australia's first professional membership body for <strong>commercial and industrial electronic repair businesses</strong> — bringing the sector together under one recognised identity for the first time.
+    </p>
+    <div class="hero-actions">
+      <a href="nacier-v4-join.html" class="btn-primary">Join NACIER</a>
+      <a href="#why" class="btn-secondary">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="motto-panel">
+      <div class="motto-label">Our Motto</div>
+      <div class="motto-item">
+        <div class="motto-word"><span>01</span> Recognition</div>
+        <div class="motto-def">Your skills, your business, your sector — formally acknowledged in a national context for the first time.</div>
+      </div>
+      <div class="motto-item">
+        <div class="motto-word"><span>02</span> Support</div>
+        <div class="motto-def">The resources, standards and collective voice the sector has never had — until now.</div>
+      </div>
+      <div class="motto-item">
+        <div class="motto-word"><span>03</span> Connection</div>
+        <div class="motto-def">NACIER connects members across the sector — facilitating introductions, referrals and collaboration between accredited businesses when the opportunity arises.</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">1st</div><div class="stat-label">Of its kind in AU</div></div>
+      <div class="stat"><div class="stat-num">2025</div><div class="stat-label">Founding cohort</div></div>
+      <div class="stat"><div class="stat-num">AU</div><div class="stat-label">National reach</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NACIER EXISTS -->
+<section class="why-section" id="why">
+  <div class="section-label">Why NACIER Exists</div>
+  <h2 class="section-title">The commercial repair<br>sector has no voice.<br>Until now.</h2>
+  <div class="why-grid">
+    <div class="why-points">
+      <div class="why-point">
+        <div class="why-point-num">01</div>
+        <div class="why-point-content">
+          <h4>Recognition Your Business Deserves</h4>
+          <p>Commercial and industrial repair is critical to Australia's infrastructure — yet the sector remains invisible in policy, procurement, and national industry conversation. NACIER changes that.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-num">02</div>
+        <div class="why-point-content">
+          <h4>A Seat at the National Table</h4>
+          <p>When government agencies, researchers, and large industrial clients discuss repair, procurement and sector capability — NACIER members have a collective voice that no single business could achieve alone.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-num">03</div>
+        <div class="why-point-content">
+          <h4>Real Business Opportunities</h4>
+          <p>As the NACIER membership grows, so does the opportunity for referrals, collaboration and introductions across the sector. Members are no longer operating in isolation — NACIER facilitates those connections on your behalf.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-num">04</div>
+        <div class="why-point-content">
+          <h4>An End to Operating in Isolation</h4>
+          <p>Industrial repair businesses have long worked without peers, shared standards, or collective standing. NACIER brings the sector together under one recognised identity — with the infrastructure to back it.</p>
+        </div>
+      </div>
+    </div>
+    <div class="why-callout">
+      <div class="why-callout-label">The Gap We're Filling</div>
+      <p class="why-callout-text">
+        Industrial electronic repair has long operated without sector representation, industry standards, or a unified voice. Businesses operating in this space — from mining equipment to telecom infrastructure — work in isolation, competing without a shared identity or collective standing.
+        <br><br>
+        <em>NACIER was created to bring these providers together, strengthen recognition of the sector, and support the long-term capability of industrial repair in Australia.</em>
+      </p>
+      <a href="nacier-v4-join.html" class="btn-primary" style="font-size:0.8rem;">View Membership Options</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO SHOULD JOIN -->
+<section class="who-section" id="who">
+  <div class="who-grid">
+    <div>
+      <div class="section-label">Membership Eligibility</div>
+      <h2 class="section-title">Who should<br>join NACIER.</h2>
+      <p class="section-body">NACIER is a membership body for businesses and professionals doing the technical work of keeping Australia's industrial electronics operational. If this describes you, this alliance was built for you.</p>
+      <a href="nacier-v4-join.html" class="btn-primary" style="margin-top: 2rem;">View Membership &amp; Apply</a>
+      <p class="who-note" style="margin-top: 1.2rem;">Not sure if you qualify? Email <a href="/cdn-cgi/l/email-protection#4a242b29232f380a2e3f25243964292527642b3f"><span class="__cf_email__" data-cfemail="6806090b010d1a280c1d07061b460b070546091d">[email&#160;protected]</span></a> — we'll respond within one business day.</p>
+    </div>
+    <ul class="who-list">
+      <li>Industrial electronic repair businesses</li>
+      <li>Control system repair specialists</li>
+      <li>Telecom infrastructure repair providers</li>
+      <li>Power electronics and automation repair technicians</li>
+      <li>Engineering and technical repair professionals supporting critical infrastructure</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="benefits-section">
+  <div class="section-label">Member Benefits</div>
+  <h2 class="section-title">What membership<br>actually gives you.</h2>
+  <p class="section-body">Six things your business gets from NACIER membership that you can't get operating independently.</p>
+  <div class="benefits-grid">
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Accreditation Badge icon: shield with checkmark -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 3L5 8v10c0 7.18 5.58 13.9 13 15.93C25.42 31.9 31 25.18 31 18V8L18 3z" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <path d="M12 18l4 4 8-8" stroke="#d4500a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="18" cy="18" r="2.5" fill="#d4500a" opacity="0.15"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Accreditation Badge</div>
+      <div class="benefit-desc">A verified, nationally recognised credential — for quotes, invoices, websites and tender submissions. A visible signal that your business meets a professional standard. Useful anywhere you need to justify your rates or stand above an unaccredited competitor.</div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Peer Network icon: two nodes connected -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="18" r="5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <circle cx="28" cy="18" r="5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <circle cx="18" cy="8" r="4" fill="#d4500a" opacity="0.2" stroke="#d4500a" stroke-width="1.5"/>
+          <line x1="12.5" y1="15.5" x2="14.5" y2="10.5" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="21.5" y1="10.5" x2="23.5" y2="15.5" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="18" x2="23" y2="18" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2.5 2"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Peer Network & Referrals</div>
+      <div class="benefit-desc">As NACIER membership grows, so does the opportunity to connect with other accredited businesses across Australia. When you need a trusted operator in another state or a collaborator on a complex job, NACIER facilitates that introduction. You're no longer operating without a professional network behind you.</div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Industry Representation icon: podium / speaker -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="11" y="14" width="14" height="11" rx="1.5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <rect x="14" y="25" width="8" height="3" rx="1" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.2"/>
+          <rect x="9" y="28" width="18" height="2.5" rx="1" fill="#d4500a" opacity="0.7"/>
+          <line x1="15" y1="18" x2="21" y2="18" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="15" y1="21" x2="19" y2="21" stroke="#d4500a" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="18" cy="9" r="3" fill="#d4500a" opacity="0.25" stroke="#d4500a" stroke-width="1.2"/>
+          <line x1="18" y1="12" x2="18" y2="14" stroke="#d4500a" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Industry Representation</div>
+      <div class="benefit-desc">For the first time, commercial and industrial repair has a national body speaking on its behalf. Your membership funds and validates that representation — in government discussions, procurement policy, and industry forums where repair has previously had no voice.</div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Resources icon: document stack -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="9" y="12" width="16" height="20" rx="1.5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <rect x="6" y="9" width="16" height="20" rx="1.5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.2" opacity="0.5"/>
+          <line x1="13" y1="18" x2="21" y2="18" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="22" x2="21" y2="22" stroke="#d4500a" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="26" x2="18" y2="26" stroke="#d4500a" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+          <rect x="13" y="14" width="5" height="1.5" rx="0.5" fill="#d4500a" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Resources & Standards</div>
+      <div class="benefit-desc">Every accredited member receives the NACIER Code of Practice, their membership certificate, and accreditation documentation. As the alliance grows, members will be first to access resources and standards developed for the sector — the professional infrastructure that has never existed for commercial and industrial repair in Australia.</div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Tender / Procurement icon: clipboard with tick -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="9" width="20" height="24" rx="1.5" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.5"/>
+          <rect x="13" y="6" width="10" height="6" rx="1.5" fill="#d4500a" opacity="0.8"/>
+          <line x1="12" y1="18" x2="24" y2="18" stroke="#d4500a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <line x1="12" y1="22" x2="24" y2="22" stroke="#d4500a" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+          <path d="M12 27l3 3 6-6" stroke="#d4500a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Tender & Procurement Support</div>
+      <div class="benefit-desc">When tendering for commercial or government work, your NACIER accreditation gives you something most competitors don't have — a formal credential from a national industry body. We provide the accreditation statement. You attach it. It's the difference between bidding with nothing behind you and bidding with recognised industry standing.</div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <!-- Collective Standing icon: rising bar / podium steps -->
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="24" width="8" height="8" rx="1" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.3" opacity="0.6"/>
+          <rect x="14" y="18" width="8" height="14" rx="1" fill="#2c3e4a" stroke="#d4500a" stroke-width="1.3" opacity="0.8"/>
+          <rect x="24" y="11" width="8" height="21" rx="1" fill="#d4500a" opacity="0.85"/>
+          <polyline points="8,20 18,14 28,8" stroke="#d4500a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2"/>
+          <circle cx="28" cy="8" r="2.5" fill="#d4500a"/>
+        </svg>
+      </div>
+      <div class="benefit-title">Collective Standing</div>
+      <div class="benefit-desc">There's a category of opportunity — government engagement, enterprise contracts, multi-state tenders — that individual repair businesses can't access alone. NACIER membership is the entry point to that table, backed by the credibility of a national body.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY NACIER EXISTS (FOUNDING CONTEXT) -->
+<section class="exists-section">
+  <div class="exists-inner">
+    <div>
+      <div class="section-label">Why NACIER Exists</div>
+      <h2 class="section-title" style="color: white;">A sector without<br>representation.</h2>
+      <p class="exists-body">Industrial electronic repair has long operated without sector representation, industry standards, or a unified voice. Maintenance teams rely on skilled repair providers to keep production running — yet the businesses delivering this work often operate in isolation and remain largely invisible in national industry discussions.</p>
+      <p class="exists-body"><em>NACIER was created to bring these providers together, strengthen recognition of the sector, and support the long-term capability of industrial repair in Australia.</em></p>
+      <a href="nacier-v4-join.html" class="btn-primary" style="margin-top: 0.5rem; background: var(--accent-light); border-color: var(--accent-light);">Join the Alliance</a>
+    </div>
+    <div class="exists-stats">
+      <div class="exists-stat">
+        <div class="exists-stat-num">0</div>
+        <div class="exists-stat-text">National bodies representing commercial and industrial repair — until NACIER</div>
+      </div>
+      <div class="exists-stat">
+        <div class="exists-stat-num">1st</div>
+        <div class="exists-stat-text">Professional membership body of its kind in Australia</div>
+      </div>
+      <div class="exists-stat">
+        <div class="exists-stat-num">2025</div>
+        <div class="exists-stat-text">Founding cohort — the organisations building this from the ground up</div>
+      </div>
+      <div class="exists-stat">
+        <div class="exists-stat-num">AU</div>
+        <div class="exists-stat-text">National reach — members across all states and territories</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section class="sectors-section" id="sectors">
+  <div class="section-label">Industries We Represent</div>
+  <h2 class="section-title">Where our members work.</h2>
+  <p class="section-body">NACIER members operate across Australia's most critical industrial sectors — repairing the electronic systems that keep infrastructure, production and services running.</p>
+  <div class="sectors-grid">
+    <div class="sector-card"><div class="sector-icon">⛏️</div><div class="sector-name">Mining & Resources</div><div class="sector-desc">PLCs, drives, control boards, HMIs for mining and extraction operations</div></div>
+    <div class="sector-card"><div class="sector-icon">🏭</div><div class="sector-name">Manufacturing</div><div class="sector-desc">Industrial automation, CNC, robotics control systems and production electronics</div></div>
+    <div class="sector-card"><div class="sector-icon">⚡</div><div class="sector-name">Utilities & Power</div><div class="sector-desc">Switchgear, substation electronics, grid monitoring and power management systems</div></div>
+    <div class="sector-card"><div class="sector-icon">💧</div><div class="sector-name">Water & Wastewater</div><div class="sector-desc">SCADA electronics, pump controllers, treatment plant control systems</div></div>
+    <div class="sector-card"><div class="sector-icon">🚂</div><div class="sector-name">Rail & Transport</div><div class="sector-desc">Traction electronics, signalling systems and rolling stock control boards</div></div>
+    <div class="sector-card"><div class="sector-icon">🏗️</div><div class="sector-name">Construction & Civil</div><div class="sector-desc">Heavy equipment electronics, crane controls and site management systems</div></div>
+    <div class="sector-card"><div class="sector-icon">📡</div><div class="sector-name">Telecommunications</div><div class="sector-desc">Network infrastructure, exchange equipment and communications hardware</div></div>
+    <div class="sector-card"><div class="sector-icon">🏥</div><div class="sector-name">Medical & Facilities</div><div class="sector-desc">Building management, HVAC electronics and non-patient medical equipment repair</div></div>
+  </div>
+</section>
+
+<!-- INDUSTRIAL REPAIR CAPABILITY -->
+<section class="capability-section">
+  <div class="capability-inner">
+    <div>
+      <div class="section-label">Industry Capability</div>
+      <h2 class="section-title">Industrial Repair<br>Capability<br>Matters.</h2>
+      <p class="section-body">Skilled industrial repair supports production continuity, reduces procurement costs, and keeps complex equipment running long beyond its expected replacement cycle. NACIER exists to recognise, support and grow that capability nationally.</p>
+      <a href="nacier-v4-join.html" class="btn-primary" style="background: white; color: var(--accent); border-color: white;">Join the Alliance</a>
+    </div>
+    <div class="cap-points">
+      <div class="cap-point">
+        <h4>Keeping Critical Systems Running</h4>
+        <p>Members reduce downtime on mining, manufacturing and utilities infrastructure — often turning days of replacement lead time into hours of repair turnaround.</p>
+      </div>
+      <div class="cap-point">
+        <h4>A Sector Worth Representing</h4>
+        <p>Commercial and industrial repair is a multi-billion dollar sector that has never had a national body. NACIER changes that — and every member strengthens the case.</p>
+      </div>
+      <div class="cap-point">
+        <h4>Standards That Mean Something</h4>
+        <p>NACIER accreditation creates a credible, verifiable standard that procurement teams, enterprise clients and government bodies can rely on when choosing a provider.</p>
+      </div>
+      <div class="cap-point">
+        <h4>Extending Equipment Life</h4>
+        <p>Member work directly extends the operational life of industrial electronics — reducing waste and supporting national objectives around resource efficiency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand"><span>NACIER</span> · National Alliance for Commercial & Industrial Electronic Repair</div>
+    <p>NACIER is a DUONS-led industry initiative. It is not a government body. Accreditation represents recognition of professional standing within the commercial and industrial repair sector.</p>
+  </div>
+  <div class="footer-col">
+    <h5>About</h5>
+    <ul>
+      <li><a href="#why">Why NACIER</a></li>
+      <li><a href="#who">Who Joins</a></li>
+      <li><a href="#sectors">Sectors</a></li>
+      <li><a href="nacier-v4-join.html">Membership</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Contact</h5>
+    <ul>
+      <li><a href="nacier-v4-join.html#apply">Apply Now</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#e18f8082888493a185948e8f92cf828e8ccf8094"><span class="__cf_email__" data-cfemail="f19f9092989483b195849e9f82df929e9cdf9084">[email&#160;protect
